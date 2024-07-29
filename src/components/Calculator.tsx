@@ -1,34 +1,36 @@
-const Calculator = () => {
-    return ( 
-        <div>
-            <div id="display">
+import { FC } from "react"
+import classes from "../styles/main.module.scss"
+import Display from "./display/Display"
+import Numpad from "./numpad/Numpad"
+import { useActions } from "../hooks/useActions"
 
+const Calculator: FC = () => {
+    const { inputOperator } = useActions()
+    const { clear } = useActions()
+    const { calculation } = useActions()
+
+    const operatorButtonHandler = (event: React.MouseEvent<HTMLButtonElement>) => {
+        inputOperator((event.target as HTMLButtonElement).value)
+    }
+
+    return (
+        <div className={classes.calculator__box}>
+            <Display />
+            <div className={classes.calculator__buttons_top}>
+                <button id="clear" className={`${classes.calculator__button} ${classes.calculator__button_clear}`} onClick={() => clear()}>Clear</button>
+                <button id="divide" className={classes.calculator__button} value="/" onClick={operatorButtonHandler}>/</button>
+                <button id="multiply" className={classes.calculator__button} value="*" onClick={operatorButtonHandler}>*</button>
             </div>
-            <div>
-                <button id="clear">Clear</button>
-                <button id="divide">/</button>
-                <button id="multiply">*</button>
-            </div>
-            <div>
-                <button id="seven">7</button>
-                <button id="eight">8</button>
-                <button id="nine">9</button>
-                <button id="four">4</button>
-                <button id="five">5</button>
-                <button id="six">6</button>
-                <button id="one">1</button>
-                <button id="two">2</button>
-                <button id="three">3</button>
-                <button id="zero">0</button>
-                <button id="decimal">.</button>
-            </div>
-            <div>
-                <button id="subtract">-</button>
-                <button id="add">+</button>
-                <button id="equals">=</button>
+            <div className={classes.calculator__buttons_bottom}>
+                <Numpad />
+                <div className={classes.calculator__buttons_bottom_right}>
+                    <button id="subtract" className={classes.calculator__button} value="-" onClick={operatorButtonHandler}>-</button>
+                    <button id="add" className={classes.calculator__button} value="+" onClick={operatorButtonHandler}>+</button>
+                    <button id="equals" className={`${classes.calculator__button} ${classes.calculator__button_equals}`} onClick={() => calculation()}>=</button>
+                </div>
             </div>
         </div>
-     );
+    );
 }
- 
+
 export default Calculator;

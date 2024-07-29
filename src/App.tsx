@@ -1,7 +1,8 @@
+import { FC } from "react"
 import Calculator from "./components/Calculator"
 import classes from "./styles/main.module.scss"
 
-const App = () => {
+const App: FC = () => {
 
   return (
     <div className={classes.container}>
