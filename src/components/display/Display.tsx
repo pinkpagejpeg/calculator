@@ -9,7 +9,7 @@ const Display: FC = () => {
 
     return (
         <div className={classes.calculator__display}>
-            {expression}
+            {/* {expression} */}
             <h1 id="display">{displayValue}</h1>
         </div>
     );

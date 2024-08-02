@@ -16,15 +16,15 @@ const roundResult = (result: number) => {
     if (dotIndex !== -1) {
         if ((resultStr.slice(dotIndex + 1, resultStr.length)).length > 4) {
             return String(result.toFixed(4))
-        } else {
-            return resultStr
         }
-    } else {
-        return resultStr
     }
+
+    return resultStr
 }
 
 export const calculatorReducer = (state = initialState, action: CalculatorAction) => {
+    console.log("Action:", action);
+    console.log("State before:", state);
     switch (action.type) {
         case CalculatorActionTypes.INPUT_OPERAND:
             if (state.waitforOperand) {
@@ -67,7 +67,7 @@ export const calculatorReducer = (state = initialState, action: CalculatorAction
                 return {
                     ...state,
                     displayValue: newValue,
-                    expression: state.expression.slice(0, -1) + newValue
+                    expression: state.expression + '.'
                 }
             }
             return state
@@ -78,7 +78,8 @@ export const calculatorReducer = (state = initialState, action: CalculatorAction
                     return {
                         ...state,
                         displayValue: "-",
-                        expression: state.expression + "-"
+                        expression: state.expression + "-",
+                        waitforOperand: false
                     }
                 } else {
                     return {
@@ -86,6 +87,14 @@ export const calculatorReducer = (state = initialState, action: CalculatorAction
                         operator: action.payload,
                         expression: state.expression.slice(0, -1) + action.payload
                     }
+                }
+            }
+
+            if (state.displayValue === "-") {
+                return {
+                    ...state,
+                    operator: action.payload,
+                    expression: state.previousValue + action.payload
                 }
             }
 
